@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Mensive 5 Months BUBUB</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Konten Utama -->
+  <div class="container">
+    <h1>Happy Mensive<br>10 Months BUBUB 💕</h1>
+    <img src="img/couple.jpg" alt="Us Together" class="photo" />
+    
+    <div class="button-group">
+      <a href="message.html" class="btn">💌 Lihat Pesan Spesial</a>
+      <a href="us.html" class="btn">📸 Us</a>
+      <a href="video.html" class="btn">🎥 Our Video</a>
+    </div>
+  </div>
+
+  <!-- Animasi Love -->
+  <div id="love-container"></div>
+  <script src="love.js"></script>
+
+  <!-- Gambar Dekorasi -->
+  <img src="img/pochaco.png" alt="Pochaco" class="pochaco" />
+
+  <!-- Tombol Toggle Musik -->
+  <button id="toggle-music">🔊 Music</button>
+
+  <!-- Musik via iframe -->
+  <iframe src="music.html" allow="autoplay" id="music-frame" style="display: none;"></iframe>
+
+  <script>
+    const iframe = document.getElementById('music-frame');
+    let started = false;
+
+    iframe.onload = () => {
+      document.body.addEventListener('click', () => {
+        if (!started) {
+          iframe.contentWindow.postMessage({ type: 'play-music' }, '*');
+          started = true;
+        }
+      });
+    };
+
+    document.getElementById('toggle-music').addEventListener('click', () => {
+      iframe.contentWindow.postMessage({ type: 'toggle-music' }, '*');
+    });
+  </script>
+
+</body>
+</html>

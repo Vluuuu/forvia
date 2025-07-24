@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Moments</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+  <div class="container">
+    <h2>Our Beautiful Moments 📸</h2>
+    <div class="gallery">
+      <!-- 20 foto dummy -->
+      <!-- Ganti src dan alt jika sudah ada foto asli -->
+      <!-- Caption ditampilkan lewat data-caption -->
+      <!-- Klik akan aktifkan lightbox -->
+      <!-- Contoh -->
+      <img src="img/us1.jpg" alt="Moment 1" data-caption="Moment 1">
+      <img src="img/us2.jpg" alt="Moment 2" data-caption="Moment 2">
+      <img src="img/us3.jpg" alt="Moment 3" data-caption="Moment 3">
+      <img src="img/us4.jpg" alt="Moment 4" data-caption="Moment 4">
+      <img src="img/us5.jpg" alt="Moment 5" data-caption="Moment 5">
+      <img src="img/us6.jpg" alt="Moment 6" data-caption="Moment 6">
+      <img src="img/us7.jpg" alt="Moment 7" data-caption="Moment 7">
+      <img src="img/us8.jpg" alt="Moment 8" data-caption="Moment 8">
+      <img src="img/us9.jpg" alt="Moment 9" data-caption="Moment 9">
+      <img src="img/us10.jpg" alt="Moment 10" data-caption="Moment 10">
+      <img src="img/us11.jpg" alt="Moment 11" data-caption="Moment 11">
+      <img src="img/us12.jpg" alt="Moment 12" data-caption="Moment 12">
+      <img src="img/us13.jpg" alt="Moment 13" data-caption="Moment 13">
+      <img src="img/us14.jpg" alt="Moment 14" data-caption="Moment 14">
+      <img src="img/us15.jpg" alt="Moment 15" data-caption="Moment 15">
+      <img src="img/us16.jpg" alt="Moment 16" data-caption="Moment 16">
+      <img src="img/us17.jpg" alt="Moment 17" data-caption="Moment 17">
+      <img src="img/us18.jpg" alt="Moment 18" data-caption="Moment 18">
+      <img src="img/us19.jpg" alt="Moment 19" data-caption="Moment 19">
+      <img src="img/us20.jpg" alt="Moment 20" data-caption="Moment 20">
+    </div>
+    <a href="index.html" class="btn">⬅ Kembali</a>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <span class="close">×</span>
+    <img class="lightbox-img" src="" alt="">
+    <p class="caption"></p>
+    <span class="prev">❮</span>
+    <span class="next">❯</span>
+  </div>
+
+  <script src="love.js"></script>
+  <script src="lightbox.js"></script>
+  <!-- Gambar Pochacco versi kedua -->
+<img src="img/pochacco2.png" alt="Pochacco 2" class="pochacco-bottom">
+
+
+<!-- Frame untuk musik -->
+<iframe src="music.html" allow="autoplay" id="music-frame" style="display:none;"></iframe>
+
+<!-- Notifikasi musik -->
+<div id="music-notification" style="
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  background: rgba(139,0,0,0.8);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  z-index: 1000;
+  display: none;
+">
+  🔊 Klik dimana saja untuk memulai musik
+</div>
+
+<script>
+  // Inisialisasi musik
+  function initializeMusic() {
+    const iframe = document.getElementById('music-frame');
+    iframe.contentWindow.postMessage({ type: 'play-music' }, '*');
+    
+    // Sembunyikan notifikasi setelah 3 detik
+    setTimeout(() => {
+      document.getElementById('music-notification').style.display = 'none';
+    }, 3000);
+    
+    // Hapus event listener setelah pertama kali dijalankan
+    document.removeEventListener('click', initializeMusic);
+    document.removeEventListener('touchstart', initializeMusic);
+  }
+
+  // Tampilkan notifikasi jika musik belum mulai
+  window.addEventListener('message', (event) => {
+    if (event.data.type === 'music-error') {
+      document.getElementById('music-notification').style.display = 'block';
+    }
+  });
+
+  // Mulai musik saat interaksi pertama
+  document.addEventListener('click', initializeMusic);
+  document.addEventListener('touchstart', initializeMusic);
+
+  // Kontrol tombol musik
+  const toggleBtn = document.getElementById('toggle-music');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const iframe = document.getElementById('music-frame');
+      iframe.contentWindow.postMessage({ type: 'toggle-music' }, '*');
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Video 🎥</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #fff0f3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      color: maroon;
+      margin-bottom: 20px;
+    }
+
+    .video-container {
+      position: relative;
+      width: 90%;
+      max-width: 700px;
+      aspect-ratio: 16 / 9;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .btn-back {
+      margin-top: 30px;
+      background-color: maroon;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎥 Our Special Moments</h1>
+
+  <div class="video-container">
+    <video controls>
+      <source src="video/ourvideo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <a href="index.html" class="btn-back">⬅ Back to Home</a>
+
+<iframe src="music.html" allow="autoplay" id="music-frame" style="display: none;"></iframe>
+
+<!-- Frame untuk musik -->
+<iframe src="music.html" allow="autoplay" id="music-frame" style="display:none;"></iframe>
+
+<!-- Notifikasi musik -->
+<div id="music-notification" style="
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  background: rgba(139,0,0,0.8);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  z-index: 1000;
+  display: none;
+">
+  🔊 Klik dimana saja untuk memulai musik
+</div>
+
+<script>
+  // Inisialisasi musik
+  function initializeMusic() {
+    const iframe = document.getElementById('music-frame');
+    iframe.contentWindow.postMessage({ type: 'play-music' }, '*');
+    
+    // Sembunyikan notifikasi setelah 3 detik
+    setTimeout(() => {
+      document.getElementById('music-notification').style.display = 'none';
+    }, 3000);
+    
+    // Hapus event listener setelah pertama kali dijalankan
+    document.removeEventListener('click', initializeMusic);
+    document.removeEventListener('touchstart', initializeMusic);
+  }
+
+  // Tampilkan notifikasi jika musik belum mulai
+  window.addEventListener('message', (event) => {
+    if (event.data.type === 'music-error') {
+      document.getElementById('music-notification').style.display = 'block';
+    }
+  });
+
+  // Mulai musik saat interaksi pertama
+  document.addEventListener('click', initializeMusic);
+  document.addEventListener('touchstart', initializeMusic);
+
+  // Kontrol tombol musik
+  const toggleBtn = document.getElementById('toggle-music');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const iframe = document.getElementById('music-frame');
+      iframe.contentWindow.postMessage({ type: 'toggle-music' }, '*');
+    });
+  }
+</script>
+</body>
+</html>
